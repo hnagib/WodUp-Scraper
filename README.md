@@ -1,6 +1,13 @@
 # WodUp Scraper
 Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 
+:clipboard: Usage Instructions
+--------------------------------
+1. Check the version of your Chrome browser and download the appropriate chromedriver executable from [here](https://chromedriver.chromium.org/downloads) into the `src` directory. The included in this repo is for Chrome v84.
+2. Run `make install-env` command from the root of this repository set up the `wodup` environment 
+3. Make sure you have a valid WodUp login. Note the email address and password you use to login
+4. Follow example in `notebooks/hn-wodup-crawler.ipynb`
+
 :open_file_folder: Repo Organization
 --------------------------------
 
