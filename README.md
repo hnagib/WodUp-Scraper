@@ -19,12 +19,18 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 
 :blue_book: Example usage
 --------------------------------
+For a detailed example check out this [notebook](https://github.com/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
 
+<img width="600" height="360" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
+
+The scraper sources strength workout data from user movement pages:`https://www.wodup.com/{user}/movements/{movement}`. This might not be the cleanest place to scrape the data from. I have not explored options for scraping from individual workout pages yet. 
+
+Here is an example of how to pull deadlift logs:
 ```python
 # Log into WodUp
 email = 'hasan.nagib@gmail.com'
 password = getpass('Enter WodUP password:')
-wu = WodUp(email, password, url=f'http://wodup.com/{user}')
+wu = WodUp(email, password, url='http://wodup.com/hasannagib}')
 time.sleep(2)
     
 # Raw scraped data
