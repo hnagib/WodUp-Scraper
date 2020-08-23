@@ -1,6 +1,6 @@
-# Project Title
+# WodUp Scraper
 
-Project description 
+Using python to scrape workout data from WodUp.
 
 :open_file_folder: Repo Organization
 --------------------------------
