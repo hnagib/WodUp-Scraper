@@ -6,7 +6,7 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 1. Check the version of your Chrome browser and download the appropriate chromedriver executable from [here](https://chromedriver.chromium.org/downloads) into the `src` directory. The included in this repo is for Chrome v84.
 2. Run `make install-env` command from the root of this repository set up the `wodup` environment 
 3. Make sure you have a valid WodUp login. Note the email address and password you use to login
-4. Follow example in `notebooks/hn-wodup-crawler.ipynb`
+4. Follow example in [`notebooks/hn-wodup-crawler.ipynb`](https://nbviewer.jupyter.org/github/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb)
 
 :open_file_folder: Repo Organization
 --------------------------------
@@ -33,7 +33,7 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 
 :blue_book: Example Usage
 --------------------------------
-For a detailed example check out this [notebook](https://github.com/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
+For a detailed example check out this [notebook](https://nbviewer.jupyter.org/github/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
 
 <img width="600" height="360" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
 
