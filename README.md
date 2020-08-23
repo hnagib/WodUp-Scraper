@@ -1,6 +1,5 @@
 # WodUp Scraper
-
-:construction: Using python to scrape workout data from [WodUp](https://www.wodup.com/).
+Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 
 :open_file_folder: Repo Organization
 --------------------------------
@@ -17,3 +16,25 @@
     ├── requirements.txt                      <- List of python packages required     
     ├── README.md
     └── .gitignore         
+
+:blue_book: Example usage
+--------------------------------
+
+```python
+# Log into WodUp
+email = 'hasan.nagib@gmail.com'
+password = getpass('Enter WodUP password:')
+wu = WodUp(email, password, url=f'http://wodup.com/{user}')
+time.sleep(2)
+    
+# Raw scraped data
+wu.get_log('deadlift')
+wu.raw_logs['deadlift']
+
+# Cleaned scraped data
+wu.clean_log('deadlift')
+wu.logs['deadlift']
+
+# Exploded view
+wu.gen_movement_hist('deadlift')
+```
