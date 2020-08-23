@@ -1,6 +1,6 @@
 # WodUp Scraper
 
-Using python to scrape workout data from [WodUp](https://www.wodup.com/).
+:under_construction: Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 
 :open_file_folder: Repo Organization
 --------------------------------
