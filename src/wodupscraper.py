@@ -8,7 +8,7 @@ import re
 import matplotlib.pyplot as plt
 
 
-class wodup:
+class WodUp:
 
     def __init__(self, email, password, url, chrome_driver_path='../src/chromedriver'):
         self.url = url
@@ -28,7 +28,7 @@ class wodup:
 
     def get_html_tree(self, movement):
         self.browser.get(f'{self.url}/movements/{movement}')
-        time.sleep(3)
+        time.sleep(1.5)
         return html.fromstring(self.browser.page_source)
         
     def get_log(self, movement):
@@ -41,65 +41,107 @@ class wodup:
         
         self.raw_logs[movement] = df
     
-    def clean_weights(self, x):
+    def gen_weights_list(self, x):
         return x.replace(' lbs', '').split(' – ')
 
-    def clean_reps(self, x):
+    def gen_reps_list(self, x):
         x = x.strip()
         if re.match('\d\sx\s\d', x):
             x = '-'.join(int(x[0])*[x[-1]])
         elif ('1 Rep' in x)|('1RM' in x):
             x = '1'
         return x.split('-')
-        
-    def clean_logs(self):
-        for k,v in self.raw_logs.items():
-            movement_name = ' '.join([i.capitalize() for i in k.split('-')])
-            df = v[v['reps'].apply(lambda x: x.startswith(movement_name))].copy()
-            df.loc[:,'reps'] = df['reps'].apply(lambda x: x[len(movement_name):])
-            df.loc[:,'date'] = df['date'].apply(lambda x: (pd.Timestamp.today() - pd.DateOffset(days=1)).strftime('%d %b') if x=='Yesterday' else x)
-            df.loc[:,'date'] = pd.to_datetime(df['date']+'2020')
-            df.loc[:,'month'] = df['date'].dt.month
-            df.loc[:,'month-1'] = df['month'].shift()
-            df.loc[:,'offset'] = (df['month-1'] < df['month']).cumsum().apply(lambda x: pd.DateOffset(years=x))
-            df.loc[:,'date'] = df['date'] - df['offset']
+    
+    def clean_date(self, x):
+        if x=='Yesterday':
+            out = (pd.Timestamp.today() - pd.DateOffset(days=1)).strftime('%d %b') 
+        else:
+            out = x
             
-            # clean reps and weights 
-            df['reps_list'] = df['reps'].apply(self.clean_reps)
-            df['weights_list'] = df['weights'].apply(self.clean_weights)
-            
+        out = pd.to_datetime(out+'2020')
+        return out
+    
+    def fix_date_year(self, df):
+        df.loc[:,'month'] = df['date'].dt.month
+        df.loc[:,'month-1'] = df['month'].shift()
+        df.loc[:,'offset'] = (df['month-1'] < df['month']).cumsum().apply(lambda x: pd.DateOffset(years=x))
+        df.loc[:,'date'] = df['date'] - df['offset']
+        return df
+    
+    def equalize_reps_and_weights(self, df):
+        # Convert un-equal length lists into strings
+        for i in df.iterrows():
             # explode 1 RM day reps
-            for i in df.iterrows():
-                if len(i[1]['reps_list']) == 1:
-                    df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list']*len(i[1]['weights_list']))
-                elif len(i[1]['reps_list']) < len(i[1]['weights_list']):
-                    df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list'] + ['Extra']*(len(i[1]['weights_list'])-len(i[1]['reps_list'])))
-                elif len(i[1]['reps_list']) > len(i[1]['weights_list']):
-                    df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list'][:len(i[1]['weights_list'])])
-                    
-            # convert the exploded strs to list
-            df.loc[:,'reps_list'] = df['reps_list'].apply(lambda x: x.split('-') if type(x) != list else x)
+            if len(i[1]['reps_list']) == 1:
+                df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list']*len(i[1]['weights_list']))
+            elif len(i[1]['reps_list']) < len(i[1]['weights_list']):
+                df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list'] + ['Extra']*(len(i[1]['weights_list'])-len(i[1]['reps_list'])))
+            elif len(i[1]['reps_list']) > len(i[1]['weights_list']):
+                df.loc[i[0],'reps_list'] = '-'.join(i[1]['reps_list'][:len(i[1]['weights_list'])])
+
+        # Convert the exploded strs back to list
+        df.loc[:,'reps_list'] = df['reps_list'].apply(lambda x: x.split('-') if type(x) != list else x)
+        return df
+    
+    def clean_rep_list(self, df):
+        for i in df.iterrows():
+            for idx, r in enumerate(i[1]['reps_list']):
+                # For clusters, take first rep
+                if re.match('\d.\d', r):
+                    df.loc[i[0],'reps_list'][idx] = int(max(r.split('.')))
+                if r == '':
+                    df.loc[i[0],'reps_list'][idx] = 0 
+        return df
+    
+    def clean_weight_list(self, df):
+        for i in df.iterrows():
+            # If rep data is available in weights as r x w, overwrite reps data with r and remove r from weights
+            for idx, w in enumerate(i[1]['weights_list']):
+                if 'x' in w:
+                    df.loc[i[0],'reps_list'][idx] = int(max((w.split('x')[0]).split('.')))
+                    df.loc[i[0],'weights_list'][idx] = int(w.split('x')[1])
+                if w == 'No sets completed':
+                    df.loc[i[0],'weights_list'][idx] = 0
+        return df
+    
+    def clean_log(self, movement):
             
-            for i in df.iterrows():
-                for idx, r in enumerate(i[1]['reps_list']):
-                    # For clusters, take first rep
-                    if re.match('\d.\d', r):
-                        df.loc[i[0],'reps_list'][idx] = int(r.split('.')[0])
-                    if r == '':
-                        df.loc[i[0],'reps_list'][idx] = 0
-                        
-                # If rep data is available in weights as r x w, overwrite reps data with r and remove r from weights
-                for idx, w in enumerate(i[1]['weights_list']):
-                    if 'x' in w:
-                        df.loc[i[0],'reps_list'][idx] = int(max((w.split('x')[0]).split('.')))
-                        df.loc[i[0],'weights_list'][idx] = int(w.split('x')[1])
-                        
-            self.logs[k] = df[['date', 'reps', 'weights', 'reps_list', 'weights_list']].copy()
+        movement_name = ' '.join([i.capitalize() for i in movement.split('-')])
+        #print(f'cleaning {movement_name} data...')
+
+        # Get movement logs
+        df = self.raw_logs[movement].copy()
+        
+        # Exclude Metcon workouts
+        df = df[df['reps'].apply(lambda x: x.startswith(movement_name))].copy()
+
+        # Fix date column
+        df.loc[:,'date'] = df['date'].apply(self.clean_date)
+        df = self.fix_date_year(df)
+
+        # Remove movement name string prefix
+        df.loc[:,'reps'] = df['reps'].apply(lambda x: x[len(movement_name):])
+
+        # Generate reps and weights lists
+        df['reps_list'] = df['reps'].apply(self.gen_reps_list)
+        df['weights_list'] = df['weights'].apply(self.gen_weights_list)
+        df = self.equalize_reps_and_weights(df)
+
+        # Clearn rep and weight list items
+        df = self.clean_rep_list(df)
+        df = self.clean_weight_list(df)
+        
+        clean_log_cols = ['date', 'reps', 'weights', 'reps_list', 'weights_list']
+        self.logs[movement] = df[clean_log_cols]
+        
+    def clean_all_logs(self):
+        for movement in self.raw_logs.keys():
+            self.clean_log(movement)
             
-    def gen_hist(self, movement):
+    def gen_movement_hist(self, movement):
         df = self.logs[movement].copy()
         df_w = df.explode('weights_list').reset_index().drop(columns=['index']).reset_index()[['index', 'date', 'weights_list']]
         df_r = df.explode('reps_list').reset_index().drop(columns=['index']).reset_index()[['index', 'reps_list']]
         df_hist = df_w.merge(df_r, on='index', how='inner', validate='one_to_one')[['date', 'weights_list', 'reps_list']].rename(columns={'reps_list':'reps', 'weights_list':'weights'})
-        df_hist = df_hist.astype({'reps':int, 'weights':int})
+        df_hist = df_hist.astype({'reps':float, 'weights':float})
         return df_hist
