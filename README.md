@@ -31,7 +31,7 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
     ├── README.md
     └── .gitignore         
 
-:blue_book: Example usage
+:blue_book: Example Usage
 --------------------------------
 For a detailed example check out this [notebook](https://github.com/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
 
