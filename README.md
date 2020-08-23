@@ -21,22 +21,18 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 --------------------------------
 
 ```python
+# Log into WodUp
 email = 'hasan.nagib@gmail.com'
 password = getpass('Enter WodUP password:')
-movements = ['front-squat', 'back-squat', 'deadlift', 'barbell-bench-press']
-
-# Log into WodUp
 wu = WodUp(email, password, url=f'http://wodup.com/{user}')
 time.sleep(2)
-
-for movement in movements:
-    wu.get_log(movement)
-    wu.clean_log(movement)
     
 # Raw scraped data
+wu.get_log('deadlift')
 wu.raw_logs['deadlift']
 
 # Cleaned scraped data
+wu.clean_log('deadlift')
 wu.logs['deadlift']
 
 # Exploded view
