@@ -42,3 +42,5 @@ wu.gen_movement_hist('deadlift')
 ```
 
 For a more detailed example check out this [notebook](https://github.com/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
+
+<img src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
