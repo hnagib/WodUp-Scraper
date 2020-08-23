@@ -5,19 +5,15 @@ Project description
 :open_file_folder: Repo Organization
 --------------------------------
 
-    ├── src                <- Modules used in and shared by different lectures & assignments
-    │   ├── ...       
+    ├── src                     
+    │   ├── wodupscraper.py          <-- wodup scraper class   
+    │   └── chromedriver             <-- chromedriver executable (v84)      
+    │
+    ├── notebooks          
+    │   ├── hn-wodup-crawler.ipynb   <-- demo of wodupscraper.py
     │   └── ...            
     │
-    ├── notebooks          <- Jupyter notebooks for each lecture
-    │   ├── ...            
-    │   └── ...            
-    │
-    ├── data               <- Directory for storing small datasets and staging larger ones
-    │   ├── ...       
-    │   └── ... 
-    │
-    ├── Makefile           <- Makefile with commands to automate installation of python environment
-    ├── requirements.txt   <- List of python packages required     
+    ├── Makefile                     <- Makefile with commands to automate installation of python environment
+    ├── requirements.txt             <- List of python packages required     
     ├── README.md
     └── .gitignore         
