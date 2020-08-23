@@ -5,15 +5,22 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 --------------------------------
 
     ├── src                     
-    │   ├── wodupscraper.py                   <-- wodup scraper    
-    │   └── chromedriver                      <-- chromedriver executable (v84)      
+    │   ├── wodupscraper.py                                 <-- wodup scraper    
+    │   └── chromedriver                                    <-- chromedriver executable (v84)      
     │
-    ├── notebooks          
-    │   ├── hn-wodup-crawler.ipynb            <-- using wodupscraper.py
+    ├── data          
+    │   ├── hasannagib-back-squat.ipynb                     <-- using wodupscraper.py
+    │   ├── hasannagib-front-squat.ipynb                    <-- using wodupscraper.py
+    │   ├── hasannagib-deadlift.ipynb                       <-- using wodupscraper.py
+    │   ├── hasannagib-barbell-bench-press.ipynb            <-- using wodupscraper.py    
     │   └── ...            
     │
-    ├── Makefile                              <- Makefile with commands to automate installation of python environment
-    ├── requirements.txt                      <- List of python packages required     
+    ├── notebooks          
+    │   ├── hn-wodup-crawler.ipynb                          <-- using wodupscraper.py
+    │   └── ...            
+    │
+    ├── Makefile                                            <- Makefile with commands to automate installation of python environment
+    ├── requirements.txt                                    <- List of python packages required     
     ├── README.md
     └── .gitignore         
 
