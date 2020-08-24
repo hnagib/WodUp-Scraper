@@ -37,9 +37,16 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 --------------------------------
 For a detailed example check out this [notebook](https://nbviewer.jupyter.org/github/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
 
-<img alighn="left" width="650" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
+<table style="width:100%">
+  <tr>
+    <th><img alighn="left" width="150" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
+</th>
+    <th><img align="right" width="150" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/prplot.png">
+</th>
+  </tr>
 
-<img align="right" width="650" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/prplot.png">
+</table>
+
 
 The scraper sources strength workout data from user movement pages:`https://www.wodup.com/{user}/movements/{movement}`. This might not be the cleanest place to scrape the data from. I have not explored options for scraping from individual workout pages yet. 
 
