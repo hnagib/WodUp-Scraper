@@ -39,9 +39,9 @@ For a detailed example check out this [notebook](https://nbviewer.jupyter.org/gi
 
 <table style="width:100%">
   <tr>
-    <th><img alighn="left" width="350" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
+    <th><img alighn="left" width="400" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
 </th>
-    <th><img align="right" width="350" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/prplot.png">
+    <th><img align="right" width="400" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/prplot.png">
 </th>
   </tr>
 
