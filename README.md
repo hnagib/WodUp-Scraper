@@ -18,10 +18,10 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
     │   └── chromedriver                                    <-- chromedriver executable (v84)      
     │
     ├── data                                                <-- saved scraped data
-    │   ├── hasannagib-back-squat.ipynb                     
-    │   ├── hasannagib-front-squat.ipynb                    
-    │   ├── hasannagib-deadlift.ipynb                       
-    │   ├── hasannagib-barbell-bench-press.ipynb                
+    │   ├── hasannagib-back-squat.csv                     
+    │   ├── hasannagib-front-squat.csv                    
+    │   ├── hasannagib-deadlift.csv                       
+    │   ├── hasannagib-barbell-bench-press.csv                
     │   └── ...            
     │
     ├── notebooks          
