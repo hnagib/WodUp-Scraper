@@ -1,6 +1,6 @@
 # WodUp Scraper
 Using python to scrape workout data from [WodUp](https://www.wodup.com/).
-<img src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/logo.png">
+<img width=100 src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/logo.png">
 
 :clipboard: Usage Instructions
 --------------------------------
