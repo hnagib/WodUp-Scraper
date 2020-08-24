@@ -43,6 +43,9 @@ The scraper sources strength workout data from user movement pages:`https://www.
 
 Here is an example of how to pull deadlift logs:
 ```python
+from getpass import getpass
+from wodupscraper import WodUp
+
 # Log into WodUp
 email = 'hasan.nagib@gmail.com'
 password = getpass('Enter WodUP password:')
