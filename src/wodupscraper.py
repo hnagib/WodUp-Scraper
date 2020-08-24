@@ -3,6 +3,7 @@ from selenium import webdriver
 from lxml import html
 import time
 import re
+import numpy as np
 
 
 class WodUp:
@@ -100,7 +101,9 @@ class WodUp:
             DateTime object corresponding to x
         """
         if x=='Yesterday':
-            out = (pd.Timestamp.today() - pd.DateOffset(days=1)).strftime('%d %b') 
+            out = (pd.Timestamp.today() - pd.DateOffset(days=1)).strftime('%d %b')
+        elif x=='Today':
+            out = pd.Timestamp.today().strftime('%d %b')
         else:
             out = x
             
@@ -241,3 +244,30 @@ class WodUp:
         df_hist = df_w.merge(df_r, on='index', how='inner', validate='one_to_one')[['date', 'weights_list', 'reps_list']].rename(columns={'reps_list':'reps', 'weights_list':'weights'})
         df_hist = df_hist.astype({'reps':float, 'weights':float})
         return df_hist
+
+    def gen_pr_table(self, movement, monotonize=True):
+        """
+        Generate PR table for a given movement. PR table should be monotonic. e.g. If you can do 8 reps as 225, then
+        you should be able to do 7 reps at 225 as well.
+
+        :param movement: movement string. e.g. "front-squat"
+        :return: PR table
+        """
+        df_pr = self.gen_movement_hist(movement).groupby('reps').max()
+
+        if monotonize:
+            df_pr['weights'] = np.maximum.accumulate(df_pr.weights.sort_index(ascending=False))
+
+        return df_pr
+
+    def gen_all_pr_tables(self):
+        """
+        :return: Generate PR tables for all movements with clean logs.
+        """
+        tables = []
+        for movement in self.logs.keys():
+            df_pr = self.gen_pr_table(movement, monotonize=True)
+            df_pr.columns = ['date', movement]
+            tables.append(df_pr)
+
+        return pd.concat(tables, axis=1)
