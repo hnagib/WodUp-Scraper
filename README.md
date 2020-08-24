@@ -37,7 +37,7 @@ Using python to scrape workout data from [WodUp](https://www.wodup.com/).
 --------------------------------
 For a detailed example check out this [notebook](https://nbviewer.jupyter.org/github/hnagib/WodUp-Scraper/blob/master/notebooks/hn-wodup-crawler.ipynb). It goes over how to pull data for multiple users and compare progress. 
 
-<img alight="left", width="650" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
+<img alighn="left", width="650" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/back-squat-example.png">
 
 <img align="right", width="650" src="https://github.com/hnagib/WodUp-Scraper/blob/master/img/prplot.png">
 
