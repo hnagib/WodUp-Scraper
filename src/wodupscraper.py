@@ -71,7 +71,7 @@ class WodUp:
         :return:
             list of weights
         """
-        return x.replace(' lbs', '').split(' – ')
+        return x.replace('lbs', '').split(' – ')
 
     def gen_reps_list(self, x):
         """
@@ -185,6 +185,7 @@ class WodUp:
                     df.loc[i[0],'weights_list'][idx] = int(w.split('x')[1])
                 if w == 'No sets completed':
                     df.loc[i[0],'weights_list'][idx] = 0
+                
         return df
     
     def clean_log(self, movement):
@@ -257,7 +258,7 @@ class WodUp:
 
         if monotonize:
             df_pr['weights'] = np.maximum.accumulate(df_pr.weights.sort_index(ascending=False))
-
+        
         return df_pr
 
     def gen_all_pr_tables(self):
@@ -267,7 +268,7 @@ class WodUp:
         tables = []
         for movement in self.logs.keys():
             df_pr = self.gen_pr_table(movement, monotonize=True)
-            df_pr.columns = ['date', movement]
+            df_pr.columns = [f'date_{movement}'.replace('-', '_'), movement.replace('-', '_')]
             tables.append(df_pr)
 
         return pd.concat(tables, axis=1)
