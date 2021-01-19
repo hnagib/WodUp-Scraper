@@ -85,7 +85,8 @@ class WodUp:
         """
         x = x.strip()
         if re.match('\d+\sx\s\d+', x):
-            x = '-'.join(int(x[0])*[x[-1].strip()])
+            x = x.split(' x ')
+            x = '-'.join(int(x[0].strip())*[x[-1].strip()])
         elif ('1 Rep' in x)|('1RM' in x):
             x = '1'
         return x.split('-')
@@ -107,7 +108,12 @@ class WodUp:
         else:
             out = x
             
-        out = pd.to_datetime(out+str(pd.Timestamp.today().year))
+        
+        try:
+            out = pd.to_datetime(out+str(pd.Timestamp.today().year))
+        except:
+            out = pd.to_datetime(str(int(out.split(' ')[0])-1)+' '+out.split(' ')[1]+str(pd.Timestamp.today().year))
+
         return out
     
     def fix_date_year(self, df):
@@ -125,6 +131,7 @@ class WodUp:
         df.loc[:,'month-1'] = df['month'].shift()
         df.loc[:,'offset'] = (df['month-1'] < df['month']).cumsum().apply(lambda x: pd.DateOffset(years=x))
         df.loc[:,'date'] = df['date'] - df['offset']
+        
         return df
     
     def equalize_reps_and_weights(self, df):
